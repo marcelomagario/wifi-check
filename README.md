@@ -39,10 +39,14 @@ npm install
 3. Create a `.env` file with the following variables:
 ```env
 PORT=3000
+SMTP_HOST=email-smtp.us-east-1.amazonaws.com
+SMTP_PORT=587
 SMTP_USER=your_smtp_username
 SMTP_PASS=your_smtp_password
 EMAIL_FROM=your_from_email@domain.com
 EMAIL_TO=your_to_email@domain.com
+HEARTBEAT_TIMEOUT_MINUTES=10
+CHECK_INTERVAL_HOURS=6
 ```
 
 ## Usage
@@ -65,25 +69,73 @@ curl http://localhost:3000/heartbeat
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `PORT` | Server port number | Yes |
-| `SMTP_USER` | SMTP username | Yes |
-| `SMTP_PASS` | SMTP password | Yes |
-| `EMAIL_FROM` | Sender email address | Yes |
-| `EMAIL_TO` | Recipient email address | Yes |
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `PORT` | Server port number | Yes | - |
+| `SMTP_HOST` | SMTP host address | No | email-smtp.us-east-1.amazonaws.com |
+| `SMTP_PORT` | SMTP port number | No | 587 |
+| `SMTP_USER` | SMTP username | Yes | - |
+| `SMTP_PASS` | SMTP password | Yes | - |
+| `EMAIL_FROM` | Sender email address | Yes | - |
+| `EMAIL_TO` | Recipient email address | Yes | - |
+| `HEARTBEAT_TIMEOUT_MINUTES` | Minutes without heartbeat before considering offline | No | 10 |
+| `CHECK_INTERVAL_HOURS` | Hours between monitoring checks | No | 6 |
 
 ### Monitoring Settings
 
-- **Heartbeat timeout**: 10 minutes (hardcoded)
-- **Check interval**: 6 hours (hardcoded)
-- **SMTP host**: AWS SES (email-smtp.us-east-1.amazonaws.com:587)
+- **Heartbeat timeout**: Configurable via `HEARTBEAT_TIMEOUT_MINUTES` (default: 10 minutes)
+- **Check interval**: Configurable via `CHECK_INTERVAL_HOURS` (default: 6 hours)
+- **SMTP host**: Configurable via `SMTP_HOST` and `SMTP_PORT` (default: AWS SES)
 
 ## Dependencies
 
 - **express**: Web framework for the REST API
 - **nodemailer**: Email sending functionality
 - **dotenv**: Environment variable management
+
+## Deployment
+
+### AWS EC2 Deployment
+
+1. **Launch EC2 Instance:**
+   - Use Ubuntu 22.04 LTS
+   - t2.micro (Free Tier)
+   - Configure Security Group to allow port 3000
+
+2. **Connect to your instance:**
+   ```bash
+   ssh -i your-key.pem ubuntu@your-ec2-ip
+   ```
+
+3. **Clone and deploy:**
+   ```bash
+   git clone <your-repo-url>
+   cd wifi-check
+   # Create .env file with your configuration
+   ./deploy.sh
+   ```
+
+4. **Check status:**
+   ```bash
+   pm2 status
+   pm2 logs wifi-check
+   ```
+
+### Environment Variables for Production
+
+Make sure your `.env` file on the server contains all required variables:
+
+```env
+PORT=3000
+EMAIL_FROM=your@email.com
+EMAIL_TO=notifications@email.com
+SMTP_USER=your_ses_user
+SMTP_PASS=your_ses_password
+SMTP_HOST=email-smtp.us-east-1.amazonaws.com
+SMTP_PORT=587
+HEARTBEAT_TIMEOUT_MINUTES=10
+CHECK_INTERVAL_HOURS=6
+```
 
 ## License
 
