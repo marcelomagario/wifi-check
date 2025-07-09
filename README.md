@@ -1,4 +1,4 @@
-# WiFi Check
+# Wi-Fi Connectivity Notification
 
 A Node.js application that monitors internet connectivity of a remote device (Galaxy A5 2016) and sends email notifications when the connection goes down or comes back online, using AWS EC2 and AWS SES.
 
