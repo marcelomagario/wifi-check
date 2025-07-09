@@ -41,10 +41,10 @@ function sendEmail(subject, text) {
   
   ses.sendEmail(params).promise()
     .then(data => {
-      console.log('Email enviado com sucesso!')
+      console.log('Email sent successfully!')
     })
     .catch(error => {
-      console.error('Erro ao enviar email:', error.message)
+      console.error('Error while sending email:', error.message)
     })
 }
 
