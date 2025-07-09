@@ -38,11 +38,13 @@ setInterval(() => {
 
   if (diff > heartbeatTimeout && !isOffline) {
     sendEmail('📡 Internet is down', `Last ping: ${new Date(lastPing).toISOString()}`)
+    console.log(`[${new Date().toISOString()}] Internet is down. Last ping: ${new Date(lastPing).toISOString()}`)
     isOffline = true
   }
 
   if (diff <= heartbeatTimeout && isOffline) {
     sendEmail('✅ Internet is back', `Ping returned: ${new Date().toISOString()}`)
+    console.log(`[${new Date().toISOString()}] Internet is back.`)
     isOffline = false
   }
 }, (parseInt(process.env.CHECK_INTERVAL_HOURS) || 6) * 60 * 60 * 1000)
