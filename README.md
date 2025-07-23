@@ -1,4 +1,8 @@
 # 📡 Wi-Fi Connectivity Monitor with AWS Alerts
+![Node.js](https://img.shields.io/badge/Node.js-18.x-brightgreen)
+![AWS EC2](https://img.shields.io/badge/Deployed-AWS%20EC2-blue)
+![AWS SES](https://img.shields.io/badge/Email-AWS%20SES-orange)
+
 
 A Node.js application that monitors internet connectivity of a remote device (Galaxy A5 2016) and sends email notifications when the connection goes down or comes back online, using AWS EC2 and AWS SES.
 
@@ -128,6 +132,3 @@ curl http://<ec2-public-ip>:3000/heartbeat
 - **dotenv**: Environment variable management
 - **aws-sdk**: AWS SES integration for sending emails
 
-![Node.js](https://img.shields.io/badge/Node.js-18.x-brightgreen)
-![AWS EC2](https://img.shields.io/badge/Deployed-AWS%20EC2-blue)
-![AWS SES](https://img.shields.io/badge/Email-AWS%20SES-orange)
